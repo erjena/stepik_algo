@@ -1,53 +1,57 @@
-class node():
+class Node():
     def __init__(self, v, n):
         self.value = v
         self.next = n
 
-class stack():
+class Stack():
     def __init__(self):
         self.head = None
 
     def push(self, v):
-        self.head = node(v, self.head)
+        self.head = Node(v, self.head)
 
     def pop(self):
-        if (self.head is None):
+        if self.head is None:
             return None
         tmp = self.head
         self.head = self.head.next
         return tmp.value
 
-s = stack()
-s.push(8)
-s.push(5)
-# print(s.pop())
-# print(s.pop())
-# print(s.pop())
-# print(s.pop())
+    def top(self):
+        if self.head is None:
+            return None
+        return self.head.value
 
+    def empty(self):
+        return self.head is None
 
+    def p(self):
+        n = self.head
+        while n:
+            print(n)
+            n = n.next
 
 def myStack(s): 
-    stack = []
+    stack = Stack()
     for c in s:
         if c == ')':
-            if not stack or stack[-1] != '(':
+            if stack.empty() or stack.top() != '(':
                 return len(s)
             stack.pop()
         elif c == '}':
-            if not stack or stack[-1] != '{':
+            if stack.empty() or stack.top() != '{':
                 return len(s)
             stack.pop()
         elif c == ']':
-            if not stack or stack[-1] != '[':
+            if stack.empty() or stack.top() != '[':
                 return len(s)
             stack.pop()
         else: 
-            stack.append(c)
+            stack.push(c)
 
-    if len(stack) == 0: 
+    if stack.empty():
         return 'Success'
-    else: 
+    else:
         return len(s)
 
 # inp = input()
