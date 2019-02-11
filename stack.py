@@ -6,15 +6,18 @@ class Node():
 class Stack():
     def __init__(self):
         self.head = None
+        self.size = 0
 
     def push(self, v):
         self.head = Node(v, self.head)
+        self.size += 1
 
     def pop(self):
         if self.head is None:
             return None
         tmp = self.head
         self.head = self.head.next
+        self.size -= 1
         return tmp.value
 
     def top(self):
@@ -25,6 +28,9 @@ class Stack():
     def empty(self):
         return self.head is None
 
+    def size(self):
+        return self.size 
+
     def p(self):
         n = self.head
         while n:
@@ -33,27 +39,29 @@ class Stack():
 
 def myStack(s): 
     stack = Stack()
-    for c in s:
+    for i, c in enumerate(s):
+        pos = i + 1
         if c == ')':
-            if stack.empty() or stack.top() != '(':
-                return len(s)
+            if stack.empty() or stack.top()[0] != '(':
+                return pos
             stack.pop()
         elif c == '}':
-            if stack.empty() or stack.top() != '{':
-                return len(s)
+            if stack.empty() or stack.top()[0] != '{':
+                return pos
             stack.pop()
         elif c == ']':
-            if stack.empty() or stack.top() != '[':
-                return len(s)
+            if stack.empty() or stack.top()[0] != '[':
+                return pos
             stack.pop()
-        else: 
-            stack.push(c)
+        elif c == '(' or c == '{' or c == '[':
+            pair = (c, pos)
+            stack.push(pair)
 
     if stack.empty():
         return 'Success'
     else:
-        return len(s)
+        return stack.top()[1]
 
 # inp = input()
-inp = '({[]})'
+inp = 'foo(bar[i);'
 print(myStack(inp))
